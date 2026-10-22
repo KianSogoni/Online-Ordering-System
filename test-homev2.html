@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PiliKArt's PASO - Solar-Punk</title>
+    <style>
+        /* =========================================
+           1. SOLAR-PUNK VARIABLES (Overgrown Tech)
+           ========================================= */
+        :root {
+            /* Colors sampled from your mood board */
+            --color-moss: #3b5e39;          /* Deep overgrown green */
+            --color-leaf: #6b9e59;          /* Lighter leaf green */
+            --color-terracotta: #b55a44;    /* Rusted metal / Clay */
+            --color-rust: #8c3e2e;          /* Dark rust */
+            --color-sun: #e9b84a;           /* Bright sun light */
+            --color-glass: rgba(255, 255, 255, 0.6); /* Frosted glass */
+            --color-ink: #1a1c18;           /* Dark forest shadow */
+
+            /* Defaults */
+            --bg-main: #e6f0e0;             /* Pale mossy sky */
+            --text-main: var(--color-ink);
+            
+            /* UI */
+            --radius: 12px;
+            --font-display: 'Georgia', serif; 
+            --font-body: system-ui, sans-serif;
+            
+            /* Glass shadow */
+            --glass-shadow: 0 8px 32px 0 rgba(59, 94, 57, 0.15);
+            --glass-border: 1px solid rgba(255, 255, 255, 0.4);
+        }
+
+        /* Sunset Mode (Overgrown City at Dusk) */
+        html.sunset {
+            --bg-main: #2b3328;             /* Dark forest night */
+            --text-main: #e8f0e0;           /* Pale moonlight */
+            --color-glass: rgba(30, 40, 30, 0.6); /* Dark frosted glass */
+            --color-sun: #ff8a5b;           /* Twilight orange */
+            --glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.4);
+            --glass-border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        /* =========================================
+           2. GLOBAL & BACKGROUND (The Ruined City)
+           ========================================= */
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            font-family: var(--font-body);
+            color: var(--text-main);
+            line-height: 1.6;
+            min-height: 100vh;
+            
+            /* Replicating the "dappled light through trees" vibe */
+            background-color: var(--bg-main);
+            background-image: 
+                radial-gradient(circle at 15% 50%, rgba(233, 184, 74, 0.15), transparent 25%),
+                radial-gradient(circle at 85% 30%, rgba(107, 158, 89, 0.2), transparent 25%),
+                /* Subtle tech grid overlay */
+                linear-gradient(rgba(59, 94, 57, 0.05) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(59, 94, 57, 0.05) 1px, transparent 1px);
+            background-size: 100% 100%, 100% 100%, 40px 40px, 40px 40px;
+            transition: background-color 0.8s ease, color 0.8s ease;
+        }
+
+        h1, h2, h3 { font-family: var(--font-display); color: var(--color-moss); font-weight: normal; }
+        html.sunset h1, html.sunset h2, html.sunset h3 { color: var(--color-sun); }
+
+        .container { width: 100%; max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+
+        /* =========================================
+           3. NAVIGATION (Overgrown Tech)
+           ========================================= */
+        .navbar {
+            /* Like the rusted train car in the image */
+            background: linear-gradient(to right, var(--color-rust), var(--color-terracotta));
+            padding: 15px 0;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            border-bottom: 2px solid var(--color-moss);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        .navbar .container { display: flex; justify-content: space-between; align-items: center; }
+        .logo { font-family: var(--font-display); font-size: 1.5rem; color: #fff; font-weight: bold; text-shadow: 2px 2px 4px rgba(0,0,0,0.5); }
+        .nav-links a { color: #f0f0f0; margin-left: 20px; text-decoration: none; font-weight: bold; transition: color 0.2s; }
+        .nav-links a:hover { color: var(--color-sun); }
+
+        /* =========================================
+           4. HERO SECTION
+           ========================================= */
+        .hero {
+            text-align: center;
+            padding: 120px 20px;
+            /* Simulating the dome/greenhouse image */
+            background: linear-gradient(rgba(230, 240, 224, 0.7), rgba(230, 240, 224, 0.9)), 
+                        url('https://images.unsplash.com/photo-1518531933037-91b2f5f229cc?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80') center/cover;
+            border-bottom: 3px dashed var(--color-leaf);
+        }
+        html.sunset .hero {
+            background: linear-gradient(rgba(43, 51, 40, 0.8), rgba(43, 51, 40, 0.95)), 
+                        url('https://images.unsplash.com/photo-1518531933037-91b2f5f229cc?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80') center/cover;
+        }
+        .hero h1 { font-size: 4rem; margin-bottom: 15px; text-shadow: 2px 2px 0px var(--color-sun); }
+        .hero p { font-size: 1.2rem; color: var(--color-moss); margin-bottom: 30px; font-weight: bold; }
+        html.sunset .hero p { color: var(--color-leaf); }
+
+        /* =========================================
+           5. GLASSMORPHISM CARDS (Like the lightbulbs)
+           ========================================= */
+        .card {
+            background: var(--color-glass);
+            backdrop-filter: blur(10px); /* The frosted glass effect */
+            -webkit-backdrop-filter: blur(10px);
+            border: var(--glass-border);
+            border-radius: var(--radius);
+            box-shadow: var(--glass-shadow);
+            padding: 20px;
+            text-align: center;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        /* Decorative "Vine" border on cards */
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 4px;
+            background: linear-gradient(90deg, var(--color-leaf), var(--color-sun), var(--color-leaf));
+        }
+
+        .card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 35px rgba(59, 94, 57, 0.25);
+            border-color: var(--color-leaf);
+        }
+
+        /* =========================================
+           6. BUTTONS
+           ========================================= */
+        .btn {
+            display: inline-block;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 4px; /* Slightly sharper, tech feel */
+            font-family: var(--font-body);
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        .btn-primary {
+            background-color: var(--color-terracotta);
+            color: #fff;
+            box-shadow: 0 4px 0 var(--color-rust); 
+        }
+        .btn-primary:hover {
+            background-color: #c7654e;
+            transform: translateY(2px);
+            box-shadow: 0 2px 0 var(--color-rust); 
+        }
+
+        /* Grid Setup */
+        .menu-section { padding: 60px 0; }
+        .section-title { text-align: center; font-size: 2.5rem; margin-bottom: 40px; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 30px; }
+
+        /* Card Content Styles */
+        .card-img {
+            width: 100%; height: 180px;
+            background: linear-gradient(135deg, var(--color-moss), var(--color-leaf));
+            border-radius: 8px; margin-bottom: 15px;
+            display: flex; align-items: center; justify-content: center;
+            color: #fff; font-weight: bold; font-size: 1.2rem;
+            box-shadow: inset 0 0 20px rgba(0,0,0,0.3);
+        }
+        .price { font-size: 1.3rem; font-weight: bold; color: var(--color-rust); margin-bottom: 15px; }
+        html.sunset .price { color: var(--color-sun); }
+
+        /* Theme Toggle */
+        .theme-toggle {
+            background: rgba(0,0,0,0.3);
+            border: 1px solid rgba(255,255,255,0.5);
+            color: #fff;
+            padding: 8px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background 0.3s;
+        }
+        .theme-toggle:hover { background: var(--color-sun); color: var(--color-ink); border-color: var(--color-sun); }
+    </style>
+</head>
+<body>
+
+    <!-- NAVIGATION -->
+    <nav class="navbar">
+        <div class="container">
+            <div class="logo">PiliKArt's PASO</div>
+            <div class="nav-links">
+                <a href="#">Menu</a>
+                <a href="#">Recipes</a>
+                <a href="#">My Orders</a>
+                <a href="#">Cart (0)</a>
+                <a href="#">Login</a>
+                <button class="theme-toggle" onclick="toggleSunset()">🌙 Sunset</button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- HERO SECTION -->
+    <header class="hero">
+        <div class="container">
+            <h1>Earth-friendly. Sun-baked.</h1>
+            <p>Experience the warmth of Filipino Solar-punk. Order local dishes cooked with the power of the sun and delivered in eco-friendly clay pots.</p>
+            <a href="#menu" class="btn btn-primary">Browse Today's Menu</a>
+        </div>
+    </header>
+
+    <!-- MENU GRID -->
+    <section id="menu" class="menu-section container">
+        <h2 class="section-title">Today's Available Menu</h2>
+        <div class="grid">
+            
+            <!-- Card 1 -->
+            <div class="card">
+                <div class="card-img">PASO Special</div>
+                <h3>PASO Special</h3>
+                <p style="color: var(--color-moss); margin-bottom: 15px; font-size: 0.9rem;">Sun-baked signature dish</p>
+                <div class="price">₱149.00</div>
+                <button class="btn btn-primary" style="width: 100%;">Add to Cart</button>
+            </div>
+
+            <!-- Card 2 -->
+            <div class="card">
+                <div class="card-img">HABI Bowl</div>
+                <h3>HABI Weave Bowl</h3>
+                <p style="color: var(--color-moss); margin-bottom: 15px; font-size: 0.9rem;">Woven-texture rice bowl</p>
+                <div class="price">₱129.00</div>
+                <button class="btn btn-primary" style="width: 100%;">Add to Cart</button>
+            </div>
+
+            <!-- Card 3 -->
+            <div class="card">
+                <div class="card-img">APOLLO Grill</div>
+                <h3>APOLLO Grill</h3>
+                <p style="color: var(--color-moss); margin-bottom: 15px; font-size: 0.9rem;">Sun-grilled skewers</p>
+                <div class="price">₱179.00</div>
+                <button class="btn btn-primary" style="width: 100%;">Add to Cart</button>
+            </div>
+
+            <!-- Card 4 -->
+            <div class="card">
+                <div class="card-img">NIPA Cooler</div>
+                <h3>NIPA Cooler</h3>
+                <p style="color: var(--color-moss); margin-bottom: 15px; font-size: 0.9rem;">Refreshing native drink</p>
+                <div class="price">₱59.00</div>
+                <button class="btn btn-primary" style="width: 100%;">Add to Cart</button>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- JAVASCRIPT FOR SUNSET MODE -->
+    <script>
+        function toggleSunset() {
+            const html = document.documentElement;
+            html.classList.toggle('sunset');
+            
+            const btn = document.querySelector('.theme-toggle');
+            if (html.classList.contains('sunset')) {
+                btn.innerHTML = '☀️ Day';
+            } else {
+                btn.innerHTML = '🌙 Sunset';
+            }
+        }
+    </script>
+</body>
+</html>

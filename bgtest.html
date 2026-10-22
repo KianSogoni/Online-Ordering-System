@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PiliKArt's PASO - Solarpunk Bahay Kubo</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        terracotta: '#c96b4a',
+                        'terracotta-dark': '#a85233',
+                        forest: '#2a4b3c',
+                        'forest-light': '#3b6853',
+                        bamboo: '#d4a373',
+                        'bamboo-light': '#faedcd',
+                    },
+                    fontFamily: {
+                        serif: ['Georgia', 'serif'],
+                        sans: ['Inter', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* 3D Container styling */
+        .pot-perspective { perspective: 1200px; }
+        .pot-3d-container {
+            transform-style: preserve-3d;
+            transition: transform 0.15s cubic-bezier(0.25, 1, 0.5, 1);
+            cursor: grab;
+        }
+        .pot-3d-container:active { cursor: grabbing; }
+        
+        /* Smooth fade for the background */
+        .bg-fade {
+            background-image: linear-gradient(to bottom, rgba(253, 246, 227, 0.2), rgba(253, 246, 227, 0.9));
+        }
+    </style>
+</head>
+<body class="h-full bg-[#fdf6e3] text-[#1a1512] font-serif overflow-x-hidden flex flex-col justify-between" id="appBody">
+
+    <!-- BACKGROUND LAYER: REPLACE THIS URL WITH YOUR AI IMAGE -->
+    <div class="fixed inset-0 pointer-events-none z-0">
+        <div class="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1518531933037-91b2f5f229cc?q=80&w=2070&auto=format&fit=crop')] bg-cover bg-center"></div>
+        <!-- A soft gradient overlay to make text readable and blend the image into the page -->
+        <div class="absolute inset-0 bg-fade"></div>
+    </div>
+
+    <!-- TOP NAVIGATION BAR (Floating Glass) -->
+    <header class="relative z-20 w-full flex justify-center pt-8 px-4">
+        <nav class="flex items-center gap-6 bg-white/70 backdrop-blur-lg px-8 py-3 rounded-full shadow-[0_8px_30px_rgb(0,0,0,0.12)] border border-white/50">
+            <button class="text-2xl text-terracotta hover:scale-110 transition-transform drop-shadow-sm" title="Home">🏺</button>
+            <button class="text-2xl text-forest hover:scale-110 transition-transform drop-shadow-sm" title="PiliBot">🤖</button>
+            
+            <div class="w-px h-6 bg-forest/20 mx-2"></div> <!-- Divider -->
+            
+            <button onclick="toggleDayNightMode()" id="modeToggleBtn" class="bg-white text-forest px-5 py-2 rounded-full text-sm font-sans font-bold shadow-sm hover:shadow-md transition">
+                ☀️ Adlaw
+            </button>
+
+            <button class="flex items-center gap-2 text-forest hover:scale-105 transition-transform">
+                <span class="text-2xl">🛒</span>
+                <span class="bg-terracotta text-white font-sans text-xs px-2.5 py-1 rounded-full font-bold shadow-sm">0</span>
+            </button>
+        </nav>
+    </header>
+
+    <!-- MAIN HERO SECTION -->
+    <main class="relative z-10 flex-grow flex flex-col items-center justify-center px-4 pot-perspective">
+        
+        <!-- Title -->
+        <div class="text-forest text-sm md:text-base font-sans tracking-[0.2em] uppercase font-bold mb-6 bg-white/80 backdrop-blur-md px-6 py-2 rounded-full shadow-sm border border-white/50">
+            PiliKArt's Solarpunk Sanctuary
+        </div>
+
+        <!-- 3D Interactive Pot Container -->
+        <div class="pot-3d-container relative w-72 h-72 sm:w-[450px] sm:h-[450px] flex items-center justify-center drop-shadow-2xl" id="potContainer">
+            <!-- Replace this image with your AI-generated Pot -->
+            <img src="https://img.freepik.com/premium-photo/clay-pot-isolated-white-background_787273-1083.jpg" 
+                 alt="PASO Pot" 
+                 class="w-full h-full object-contain pointer-events-none mix-blend-multiply drop-shadow-[0_20px_20px_rgba(0,0,0,0.3)]">
+        </div>
+
+        <p class="text-xs text-forest font-sans font-semibold mt-4 bg-white/60 backdrop-blur-sm px-5 py-2 rounded-full shadow-sm border border-white/50 animate-pulse tracking-wide">
+            ✨ DRAG TO ROTATE ✨
+        </p>
+
+        <!-- Bottom Category Navigation Tabs -->
+        <div class="flex gap-4 sm:gap-8 mt-12 text-sm sm:text-lg font-bold font-serif text-forest bg-white/50 backdrop-blur-md px-8 py-3 rounded-full shadow-sm border border-white/50">
+            <button class="hover:text-terracotta hover:scale-105 transition-all">🌿 Food</button>
+            <button class="hover:text-terracotta hover:scale-105 transition-all">🥤 Drinks</button>
+            <button class="hover:text-terracotta hover:scale-105 transition-all">🍧 Desserts</button>
+        </div>
+    </main>
+
+    <!-- JAVASCRIPT LOGIC -->
+    <script>
+        // --- Day / Twilight Mode Toggle ---
+        let isNight = false;
+        function toggleDayNightMode() {
+            isNight = !isNight;
+            const body = document.getElementById('appBody');
+            const btn = document.getElementById('modeToggleBtn');
+            const bgFade = document.querySelector('.bg-fade');
+
+            if (isNight) {
+                body.classList.add('bg-[#1a2634]', 'text-[#faedcd]');
+                body.classList.remove('bg-[#fdf6e3]', 'text-[#1a1512]');
+                bgFade.style.backgroundImage = 'linear-gradient(to bottom, rgba(26, 38, 52, 0.6), rgba(26, 38, 52, 0.95))';
+                btn.innerHTML = "🌙 Bulan";
+                btn.classList.add('bg-[#2a4b3c]', 'text-[#70d6ff]');
+                btn.classList.remove('bg-white', 'text-forest');
+            } else {
+                body.classList.remove('bg-[#1a2634]', 'text-[#faedcd]');
+                body.classList.add('bg-[#fdf6e3]', 'text-[#1a1512]');
+                bgFade.style.backgroundImage = 'linear-gradient(to bottom, rgba(253, 246, 227, 0.2), rgba(253, 246, 227, 0.9))';
+                btn.innerHTML = "☀️ Adlaw";
+                btn.classList.remove('bg-[#2a4b3c]', 'text-[#70d6ff]');
+                btn.classList.add('bg-white', 'text-forest');
+            }
+        }
+
+        // --- 3D Turnable Pot Physics (Inertia) ---
+        const potContainer = document.getElementById('potContainer');
+        let isDragging = false;
+        let startX = 0;
+        let currentRotation = 0;
+        let velocity = 0;
+        let lastX = 0;
+        let animationFrameId = null;
+
+        function handleDragStart(clientX) {
+            isDragging = true;
+            startX = clientX;
+            lastX = clientX;
+            if (animationFrameId) cancelAnimationFrame(animationFrameId);
+            potContainer.style.transition = 'none';
+        }
+
+        function handleDragMove(clientX) {
+            if (!isDragging) return;
+            
+            const deltaX = clientX - startX;
+            velocity = clientX - lastX;
+            
+            currentRotation = deltaX * 0.5; 
+            potContainer.style.transform = `rotateY(${currentRotation}deg) rotateX(5deg)`;
+
+            lastX = clientX;
+        }
+
+        function handleDragEnd() {
+            if (!isDragging) return;
+            isDragging = false;
+            
+            // Apply spring-back with momentum
+            potContainer.style.transition = 'transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275)';
+            currentRotation = 0;
+            potContainer.style.transform = `rotateY(0deg) rotateX(0deg)`;
+        }
+
+        // Mouse Events
+        potContainer.addEventListener('mousedown', (e) => handleDragStart(e.clientX));
+        window.addEventListener('mousemove', (e) => handleDragMove(e.clientX));
+        window.addEventListener('mouseup', handleDragEnd);
+
+        // Touch Events for Mobile
+        potContainer.addEventListener('touchstart', (e) => handleDragStart(e.touches[0].clientX), {passive: true});
+        window.addEventListener('touchmove', (e) => handleDragMove(e.touches[0].clientX), {passive: true});
+        window.addEventListener('touchend', handleDragEnd);
+    </script>
+</body>
+</html>
